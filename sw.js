@@ -29,3 +29,49 @@ self.addEventListener('install', e=>{
         .catch(err => console.log('No se ha registrado la cache', err))
     );
 });
+
+//Evento Activo
+//Este evento permite que la aolicacion funcione Offline
+self.addEventListener('activate',e =>{
+    const cacheWhilelist = [CACHE_NAME];
+
+//Que el evento espere a que termine de ejecutar
+    e.waitUntil(
+        caches.keys()
+        .then(cacheNames=>{
+        return Promise.all(
+            cacheNames.map(cacheNames=>{
+                if(cacheWhilelist.indexOf(cacheName)==-1)
+                    {
+                        //Borrar elementos que no se necesitan
+                        return cache.delete(cacheName);
+                    }
+                })
+            );
+        })
+        .then(()=>{
+            //Activa la cache en el dispositivo
+            self.clients.claim();
+        })
+    );
+})
+
+//Evento fetch
+//Consigue la informacion de Internet (hace una consulta al backend)
+//Cuando se salta de una pagina a otra pagina
+//Ejemplo: Revisa si ya tiene lo recursos en el cache si no los solicita
+
+self.addEventListener('fetch',e =>{
+    e.respondWith(
+        caches.match(e.request)
+        .then(res=> {
+            if(res)
+                {
+                    //Devuelvo datos desde cache
+                    return res;
+                }
+            return fetch(e.request);
+            //Hago peticion al servidor en caso de que no este en el cache
+        })
+    );
+});

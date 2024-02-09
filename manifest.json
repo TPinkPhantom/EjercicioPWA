@@ -1,6 +1,6 @@
 {
     "name":"Cats 4 All PWA",
-    "short_name":"C4A PWA",
+    "short_name":"C4A-PWA",
     "description":"Aplicacion PWA de materia WEB Progresivas",
     "background_color":"#0b011b",
     "theme_color":"#37027E",
@@ -16,8 +16,8 @@
             "type":"image/png"
         },
         {
-            "src":".img/icoCat 34x34.png",
-            "sizes":"34x34",
+            "src":".img/icoCat 32x32.png",
+            "sizes":"32x32",
             "type":"image/png"
         },
         {
